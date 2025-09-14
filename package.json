@@ -1,0 +1,13 @@
+{
+  "name": "full-stack-guide",
+  "version": "1.0.0",
+  "description": "Guia Full Stack com exemplos interativos",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 3000"
+  },
+  "keywords": ["fullstack", "javascript", "react", "tutorial"],
+  "author": "Desenvolvedor Full Stack",
+  "license": "MIT"
+}
