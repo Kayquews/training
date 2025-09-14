@@ -755,6 +755,7 @@ const obterDados = async () => {
             </div>
 
             <!-- Placeholder for other sections -->
+            <!-- Next.js Section -->
             <div id="nextjs" class="tech-card">
               <div class="d-flex align-items-center mb-3">
                 <span class="tech-icon next-icon">⚡</span>
@@ -764,14 +765,136 @@ const obterDados = async () => {
                 </div>
               </div>
               <p class="tech-description">
-                Framework React para produção com SSR, SSG, API routes e muito
-                mais.
+                Framework React para produção com SSR, SSG, API routes,
+                roteamento automático e otimizações de performance.
               </p>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-clock"></i> Em breve...
-              </button>
-            </div>
 
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD NEXT[Next.js] --> SETUP[Setup e Configuração] -->
+                  ROTAS[Sistema de Rotas] --> PAGES[Pages e Layouts] -->
+                  SSR[Server-Side Rendering] --> SSG[Static Site Generation] -->
+                  API_ROUTES[API Routes] --> MIDDLEWARE[Middleware] -->
+                  AUTH_NEXT[Autenticação] --> DEPLOY_NEXT[Deploy]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('nextjs-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos Next.js
+              </button>
+
+              <div id="nextjs-examples" class="code-examples collapse-content">
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> App Router e Layouts
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-typescript">// app/layout.tsx
+import type { Metadata } from 'next'
+import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'Meu App Next.js',
+  description: 'Aplicação moderna com Next.js 14',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    &lt;html lang="pt-BR"&gt;
+      &lt;body&gt;
+        &lt;nav className="navbar"&gt;
+          &lt;Link href="/"&gt;Home&lt;/Link&gt;
+          &lt;Link href="/sobre"&gt;Sobre&lt;/Link&gt;
+        &lt;/nav&gt;
+        &lt;main&gt;{children}&lt;/main&gt;
+        &lt;footer&gt;© 2025 Meu App&lt;/footer&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  )
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Server Components e Data
+                    Fetching
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-typescript">// app/posts/page.tsx
+import { Suspense } from 'react'
+
+async function getPosts() {
+  const res = await fetch('https://api.exemplo.com/posts', {
+    next: { revalidate: 60 } // ISR - revalidate a cada 60s
+  })
+  
+  if (!res.ok) {
+    throw new Error('Falha ao buscar posts')
+  }
+  
+  return res.json()
+}
+
+export default async function PostsPage() {
+  const posts = await getPosts()
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Posts do Blog&lt;/h1&gt;
+      &lt;Suspense fallback={&lt;div&gt;Carregando posts...&lt;/div&gt;}&gt;
+        &lt;PostsList posts={posts} /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> API Routes
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-typescript">// app/api/users/route.ts
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams
+  const id = searchParams.get('id')
+  
+  if (id) {
+    // Buscar usuário específico
+    const user = await getUserById(id)
+    return NextResponse.json(user)
+  }
+  
+  // Buscar todos os usuários
+  const users = await getAllUsers()
+  return NextResponse.json(users)
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json()
+  
+  const newUser = await createUser(body)
+  
+  return NextResponse.json(
+    { message: 'Usuário criado', user: newUser },
+    { status: 201 }
+  )
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div id="php" class="tech-card">
               <div class="d-flex align-items-center mb-3">
                 <span class="tech-icon php-icon">🐘</span>
@@ -781,12 +904,177 @@ const obterDados = async () => {
                 </div>
               </div>
               <p class="tech-description">
-                Linguagem server-side e framework Laravel para desenvolvimento
-                web robusto.
+                Linguagem server-side robusta e framework Laravel para
+                desenvolvimento web escalável com MVC, ORM Eloquent e muito
+                mais.
               </p>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-clock"></i> Em breve...
+
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD PHP[PHP] --> SINTAXE[Sintaxe Básica] -->
+                  VARIAVEIS[Variáveis] --> FUNCOES_PHP[Funções] -->
+                  ARRAYS_PHP[Arrays] --> POO_PHP[POO] --> NAMESPACE[Namespaces]
+                  --> COMPOSER[Composer] --> LARAVEL[Laravel] --> MVC[Padrão
+                  MVC] --> ROUTES[Rotas] --> CONTROLLERS[Controllers] -->
+                  MODELS[Models] --> VIEWS[Views] --> ELOQUENT[Eloquent ORM] -->
+                  MIGRATIONS[Migrations]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('php-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos PHP/Laravel
               </button>
+
+              <div id="php-examples" class="code-examples collapse-content">
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> PHP Básico e POO
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-php">&lt;?php
+// Classe com propriedades e métodos
+class Usuario {
+    private $nome;
+    private $email;
+    private $senha;
+    
+    public function __construct($nome, $email, $senha) {
+        $this->nome = $nome;
+        $this->email = $email;
+        $this->senha = password_hash($senha, PASSWORD_DEFAULT);
+    }
+    
+    public function getNome(): string {
+        return $this->nome;
+    }
+    
+    public function verificarSenha($senha): bool {
+        return password_verify($senha, $this->senha);
+    }
+    
+    public function toArray(): array {
+        return [
+            'nome' => $this->nome,
+            'email' => $this->email
+        ];
+    }
+}
+
+// Uso da classe
+$usuario = new Usuario("João", "joao@email.com", "senha123");
+echo $usuario->getNome(); // João
+?&gt;</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Laravel - Controller e Routes
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-php">// routes/web.php
+&lt;?php
+use App\Http\Controllers\UsuarioController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::resource('usuarios', UsuarioController::class);
+
+// app/Http/Controllers/UsuarioController.php
+&lt;?php
+namespace App\Http\Controllers;
+
+use App\Models\Usuario;
+use Illuminate\Http\Request;
+
+class UsuarioController extends Controller
+{
+    public function index()
+    {
+        $usuarios = Usuario::paginate(10);
+        return view('usuarios.index', compact('usuarios'));
+    }
+    
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email|unique:usuarios',
+            'senha' => 'required|min:8'
+        ]);
+        
+        $usuario = Usuario::create([
+            'nome' => $validated['nome'],
+            'email' => $validated['email'],
+            'senha' => bcrypt($validated['senha'])
+        ]);
+        
+        return redirect()->route('usuarios.index')
+                        ->with('success', 'Usuário criado com sucesso!');
+    }
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> Eloquent ORM e Relationships
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-php">// app/Models/Usuario.php
+&lt;?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Usuario extends Model
+{
+    protected $fillable = ['nome', 'email', 'senha'];
+    
+    protected $hidden = ['senha'];
+    
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+    
+    // Relacionamento: Um usuário tem muitos posts
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+    
+    // Accessor: formatar nome
+    public function getNomeCompletoAttribute(): string
+    {
+        return ucwords($this->nome);
+    }
+    
+    // Scope: usuários ativos
+    public function scopeAtivos($query)
+    {
+        return $query->where('ativo', true);
+    }
+}
+
+// Uso do modelo
+$usuarios = Usuario::ativos()
+                  ->with('posts')
+                  ->orderBy('nome')
+                  ->get();
+
+foreach ($usuarios as $usuario) {
+    echo $usuario->nome_completo;
+    echo "Posts: " . $usuario->posts->count();
+}</code></pre>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div id="python" class="tech-card">
@@ -798,12 +1086,191 @@ const obterDados = async () => {
                 </div>
               </div>
               <p class="tech-description">
-                Linguagem versátil e framework Django para desenvolvimento web
-                escalável.
+                Linguagem versátil e poderosa, framework Django para
+                desenvolvimento web escalável com ORM, admin automático e
+                arquitetura MTV.
               </p>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-clock"></i> Em breve...
+
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD PYTHON[Python] --> SINTAXE_PY[Sintaxe Básica] -->
+                  TIPOS[Tipos de Dados] --> FUNC_PY[Funções] -->
+                  CLASSES[Classes] --> MODULES[Módulos] --> DJANGO[Django] -->
+                  MTV[Padrão MTV] --> MODELS_DG[Models] --> VIEWS_DG[Views] -->
+                  TEMPLATES[Templates] --> URLS[URLs] --> ADMIN[Django Admin]
+                  --> ORM_DG[ORM Django]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('python-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos Python/Django
               </button>
+
+              <div id="python-examples" class="code-examples collapse-content">
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> Python Básico e Classes
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-python"># Classes e métodos especiais
+class Usuario:
+    def __init__(self, nome, email, idade=None):
+        self.nome = nome
+        self.email = email
+        self.idade = idade
+        self._posts = []
+    
+    def adicionar_post(self, titulo, conteudo):
+        post = {
+            'titulo': titulo,
+            'conteudo': conteudo,
+            'autor': self.nome,
+            'data': datetime.now()
+        }
+        self._posts.append(post)
+        return post
+    
+    def __str__(self):
+        return f"Usuario: {self.nome} ({self.email})"
+    
+    def __len__(self):
+        return len(self._posts)
+    
+    @property
+    def posts_count(self):
+        return len(self._posts)
+
+# Uso da classe
+usuario = Usuario("Maria", "maria@email.com", 28)
+usuario.adicionar_post("Meu primeiro post", "Conteúdo do post...")
+print(f"{usuario} tem {usuario.posts_count} posts")</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Django Models e ORM
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-python"># models.py
+from django.db import models
+from django.contrib.auth.models import User
+from django.urls import reverse
+
+class Categoria(models.Model):
+    nome = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+    ativa = models.BooleanField(default=True)
+    
+    class Meta:
+        verbose_name_plural = "Categorias"
+    
+    def __str__(self):
+        return self.nome
+
+class Post(models.Model):
+    titulo = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    conteudo = models.TextField()
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
+    data_criacao = models.DateTimeField(auto_now_add=True)
+    data_atualizacao = models.DateTimeField(auto_now=True)
+    publicado = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['-data_criacao']
+    
+    def __str__(self):
+        return self.titulo
+    
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'slug': self.slug})
+
+# Uso do ORM
+# Criar posts
+post = Post.objects.create(
+    titulo="Django ORM",
+    conteudo="Explicação sobre ORM...",
+    autor_id=1,
+    categoria_id=1
+)
+
+# Consultas complexas
+posts = Post.objects.filter(
+    publicado=True,
+    categoria__ativa=True
+).select_related('autor', 'categoria').order_by('-data_criacao')</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> Django Views e Templates
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-python"># views.py
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from .models import Post, Categoria
+
+def lista_posts(request):
+    posts = Post.objects.filter(publicado=True).select_related('autor')
+    
+    # Filtro por categoria
+    categoria_slug = request.GET.get('categoria')
+    if categoria_slug:
+        posts = posts.filter(categoria__slug=categoria_slug)
+    
+    # Paginação
+    paginator = Paginator(posts, 10)
+    page = request.GET.get('page')
+    posts_paginados = paginator.get_page(page)
+    
+    context = {
+        'posts': posts_paginados,
+        'categorias': Categoria.objects.filter(ativa=True)
+    }
+    return render(request, 'blog/lista_posts.html', context)
+
+@login_required
+def criar_post(request):
+    if request.method == 'POST':
+        # Processar formulário
+        titulo = request.POST.get('titulo')
+        conteudo = request.POST.get('conteudo')
+        
+        post = Post.objects.create(
+            titulo=titulo,
+            conteudo=conteudo,
+            autor=request.user
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'post_id': post.id,
+            'url': post.get_absolute_url()
+        })
+    
+    return render(request, 'blog/criar_post.html')
+
+# urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.lista_posts, name='lista-posts'),
+    path('criar/', views.criar_post, name='criar-post'),
+    path('post/&lt;slug:slug&gt;/', views.detalhe_post, name='detalhe-post'),
+]</code></pre>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div id="frontend" class="tech-card">
@@ -815,12 +1282,274 @@ const obterDados = async () => {
                 </div>
               </div>
               <p class="tech-description">
-                CSS moderno, responsividade, acessibilidade e ferramentas de
-                build.
+                CSS moderno, Flexbox, Grid, responsividade, acessibilidade,
+                animações e ferramentas de build para interfaces profissionais.
               </p>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-clock"></i> Em breve...
+
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD FRONTEND[Front-end] --> HTML5[HTML5 Semântico] -->
+                  CSS3[CSS3 Moderno] --> FLEXBOX[Flexbox] --> GRID[CSS Grid] -->
+                  RESPONSIVE[Design Responsivo] --> ANIMATIONS[Animações CSS]
+                  --> SASS[Sass/SCSS] --> ACCESSIBILITY[Acessibilidade] -->
+                  PERFORMANCE[Performance] --> BUILD[Ferramentas Build]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('frontend-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos Front-end
               </button>
+
+              <div
+                id="frontend-examples"
+                class="code-examples collapse-content"
+              >
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> CSS Grid e Flexbox
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-css">/* Layout moderno com CSS Grid */
+.dashboard {
+  display: grid;
+  grid-template-areas: 
+    "header header header"
+    "sidebar main aside"
+    "footer footer footer";
+  grid-template-rows: 60px 1fr 50px;
+  grid-template-columns: 250px 1fr 200px;
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+
+/* Cards com Flexbox */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.card {
+  flex: 1 1 300px; /* grow, shrink, basis */
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-content {
+  padding: 1.5rem;
+  flex: 1; /* Cresce para ocupar espaço disponível */
+}
+
+.card-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+  margin-top: auto; /* Empurra para o final */
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Design Responsivo Moderno
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-css">/* Sistema de design responsivo */
+:root {
+  /* Breakpoints */
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+  
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  
+  /* Typography */
+  --font-size-sm: clamp(0.8rem, 0.7rem + 0.5vw, 1rem);
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
+  --font-size-lg: clamp(1.2rem, 1rem + 1vw, 1.8rem);
+  --font-size-xl: clamp(1.8rem, 1.4rem + 2vw, 3rem);
+}
+
+/* Container responsivo */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Grid system responsivo */
+.grid {
+  display: grid;
+  gap: var(--space-md);
+  
+  /* Mobile first */
+  grid-template-columns: 1fr;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid--3-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid--4-cols {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Navigation responsiva */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) 0;
+}
+
+.nav__menu {
+  display: none; /* Escondido no mobile */
+}
+
+@media (min-width: 768px) {
+  .nav__menu {
+    display: flex;
+    gap: var(--space-md);
+  }
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> Animações e Microinterações
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-css">/* Animações suaves e performáticas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Button com microinterações */
+.btn {
+  position: relative;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn:hover::before {
+  left: 100%; /* Shimmer effect */
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Entrada suave de elementos */
+.fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.stagger > * {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger > *:nth-child(3) { animation-delay: 0.3s; }</code></pre>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div id="database" class="tech-card">
@@ -832,11 +1561,217 @@ const obterDados = async () => {
                 </div>
               </div>
               <p class="tech-description">
-                SQL, NoSQL, MongoDB, PostgreSQL e design de bancos de dados.
+                SQL, NoSQL, MongoDB, PostgreSQL, MySQL, design de bancos,
+                indexação, otimização de queries e muito mais.
               </p>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-clock"></i> Em breve...
+
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD DATABASE[Banco de Dados] --> SQL[SQL Básico] -->
+                  CRUD[CRUD Operations] --> JOINS[Joins] --> INDEXES[Índices]
+                  --> NORMALIZATION[Normalização] --> POSTGRESQL[PostgreSQL] -->
+                  MONGODB[MongoDB] --> REDIS[Redis] --> OPTIMIZATION[Otimização]
+                  --> BACKUP[Backup/Recovery]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('database-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos de BD
               </button>
+
+              <div
+                id="database-examples"
+                class="code-examples collapse-content"
+              >
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> SQL Avançado - Joins e
+                    Subqueries
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-sql">-- Joins complexos e subqueries
+SELECT 
+    u.nome AS usuario,
+    u.email,
+    COUNT(p.id) AS total_posts,
+    AVG(p.visualizacoes) AS media_visualizacoes,
+    MAX(p.data_criacao) AS ultimo_post,
+    c.nome AS categoria_mais_usada
+FROM usuarios u
+LEFT JOIN posts p ON u.id = p.autor_id
+LEFT JOIN categorias c ON p.categoria_id = c.id
+WHERE u.ativo = true
+  AND p.data_criacao >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY u.id, u.nome, u.email, c.nome
+HAVING COUNT(p.id) > 0
+ORDER BY total_posts DESC, media_visualizacoes DESC
+LIMIT 10;
+
+-- Subquery correlacionada
+SELECT 
+    p.titulo,
+    p.data_criacao,
+    (
+        SELECT COUNT(*) 
+        FROM comentarios c 
+        WHERE c.post_id = p.id 
+        AND c.aprovado = true
+    ) AS total_comentarios,
+    CASE 
+        WHEN p.data_criacao >= CURRENT_DATE - INTERVAL '7 days' THEN 'Novo'
+        WHEN p.data_criacao >= CURRENT_DATE - INTERVAL '30 days' THEN 'Recente'
+        ELSE 'Antigo'
+    END AS categoria_tempo
+FROM posts p
+WHERE EXISTS (
+    SELECT 1 
+    FROM usuarios u 
+    WHERE u.id = p.autor_id 
+    AND u.verificado = true
+);</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> MongoDB - Aggregation
+                    Pipeline
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-javascript">// MongoDB Aggregation Pipeline avançado
+db.posts.aggregate([
+  // Stage 1: Match - filtrar posts ativos
+  {
+    $match: {
+      status: "published",
+      data_criacao: {
+        $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // últimos 30 dias
+      }
+    }
+  },
+  
+  // Stage 2: Lookup - join com coleção de usuários
+  {
+    $lookup: {
+      from: "usuarios",
+      localField: "autor_id",
+      foreignField: "_id",
+      as: "autor"
+    }
+  },
+  
+  // Stage 3: Unwind - desnormalizar array do autor
+  {
+    $unwind: "$autor"
+  },
+  
+  // Stage 4: Group - agrupar por categoria
+  {
+    $group: {
+      _id: "$categoria",
+      total_posts: { $sum: 1 },
+      media_likes: { $avg: "$likes" },
+      total_visualizacoes: { $sum: "$visualizacoes" },
+      autores: { 
+        $addToSet: {
+          nome: "$autor.nome",
+          email: "$autor.email"
+        }
+      },
+      posts_populares: {
+        $push: {
+          $cond: [
+            { $gte: ["$likes", 100] },
+            {
+              titulo: "$titulo",
+              likes: "$likes",
+              data: "$data_criacao"
+            },
+            "$$REMOVE"
+          ]
+        }
+      }
+    }
+  },
+  
+  // Stage 5: Sort - ordenar por total de posts
+  {
+    $sort: { total_posts: -1 }
+  },
+  
+  // Stage 6: Project - formatar saída
+  {
+    $project: {
+      categoria: "$_id",
+      estatisticas: {
+        total_posts: 1,
+        media_likes: { $round: ["$media_likes", 2] },
+        total_visualizacoes: 1
+      },
+      total_autores: { $size: "$autores" },
+      posts_populares: { $slice: ["$posts_populares", 5] }
+    }
+  }
+]);</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> Índices e Otimização
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-sql">-- PostgreSQL: Criação de índices otimizados
+-- Índice simples para consultas frequentes
+CREATE INDEX idx_posts_status_data 
+ON posts (status, data_criacao DESC);
+
+-- Índice parcial (apenas posts publicados)
+CREATE INDEX idx_posts_published 
+ON posts (data_criacao DESC) 
+WHERE status = 'published';
+
+-- Índice composto para consultas complexas
+CREATE INDEX idx_posts_autor_categoria 
+ON posts (autor_id, categoria_id, data_criacao DESC);
+
+-- Índice GIN para busca full-text
+CREATE INDEX idx_posts_fulltext 
+ON posts USING gin(to_tsvector('portuguese', titulo || ' ' || conteudo));
+
+-- Query otimizada com EXPLAIN ANALYZE
+EXPLAIN (ANALYZE, BUFFERS) 
+SELECT p.titulo, u.nome, c.nome as categoria
+FROM posts p
+INNER JOIN usuarios u ON p.autor_id = u.id
+INNER JOIN categorias c ON p.categoria_id = c.id
+WHERE p.status = 'published'
+  AND p.data_criacao >= CURRENT_DATE - INTERVAL '7 days'
+  AND to_tsvector('portuguese', p.titulo || ' ' || p.conteudo) 
+      @@ plainto_tsquery('portuguese', 'tecnologia web')
+ORDER BY p.data_criacao DESC
+LIMIT 20;
+
+-- View materializada para relatórios
+CREATE MATERIALIZED VIEW mv_estatisticas_mensais AS
+SELECT 
+    DATE_TRUNC('month', data_criacao) as mes,
+    COUNT(*) as total_posts,
+    COUNT(DISTINCT autor_id) as autores_ativos,
+    AVG(visualizacoes) as media_views
+FROM posts 
+WHERE status = 'published'
+GROUP BY DATE_TRUNC('month', data_criacao)
+ORDER BY mes DESC;
+
+-- Refresh da view materializada
+REFRESH MATERIALIZED VIEW mv_estatisticas_mensais;</code></pre>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div id="devops" class="tech-card">
