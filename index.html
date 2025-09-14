@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guia Full Stack - Training</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #2563eb;
+        --secondary-color: #1e293b;
+        --accent-color: #06b6d4;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --dark-bg: #0f172a;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--dark-bg) 0%, #1e293b 100%);
+        color: #e2e8f0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      .navbar {
+        background: rgba(15, 23, 42, 0.95) !important;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-section {
+        padding: 4rem 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(37, 99, 235, 0.1) 0%,
+          transparent 70%
+        );
+        z-index: -1;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, #ffffff, var(--accent-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        color: #94a3b8;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+      }
+
+      .tech-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tech-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+      }
+
+      .tech-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-color: var(--primary-color);
+      }
+
+      .tech-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .js-icon {
+        color: #f7df1e;
+      }
+      .react-icon {
+        color: #61dafb;
+      }
+      .next-icon {
+        color: #ffffff;
+      }
+      .php-icon {
+        color: #777bb4;
+      }
+      .python-icon {
+        color: #3776ab;
+      }
+      .frontend-icon {
+        color: #e34f26;
+      }
+      .database-icon {
+        color: var(--success-color);
+      }
+      .devops-icon {
+        color: var(--warning-color);
+      }
+
+      .tech-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #ffffff;
+      }
+
+      .tech-description {
+        color: #94a3b8;
+        margin-bottom: 1.5rem;
+      }
+
+      .mermaid-container {
+        background: #1a1a1a;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+      }
+
+      .code-examples {
+        margin-top: 1.5rem;
+      }
+
+      .example-card {
+        background: #1a1a1a;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+      }
+
+      .example-header {
+        background: var(--secondary-color);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 600;
+        color: var(--accent-color);
+      }
+
+      .example-content {
+        padding: 0;
+      }
+
+      pre {
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border: none;
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+      }
+
+      .btn-outline-primary {
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline-primary:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .progress-indicator {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: transparent;
+        z-index: 9999;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      .sidebar-nav {
+        position: sticky;
+        top: 100px;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+      }
+
+      .nav-link {
+        color: #94a3b8;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background: var(--primary-color);
+        color: white;
+        transform: translateX(5px);
+      }
+
+      .floating-toc {
+        position: fixed;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1rem;
+        max-width: 250px;
+        z-index: 100;
+        display: none;
+      }
+
+      @media (min-width: 1400px) {
+        .floating-toc {
+          display: block;
+        }
+      }
+
+      .footer {
+        background: var(--secondary-color);
+        border-top: 1px solid var(--border-color);
+        padding: 3rem 0;
+        margin-top: 4rem;
+      }
+
+      .footer-links {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links:hover {
+        color: var(--primary-color);
+      }
+
+      .scroll-to-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+
+      .scroll-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .scroll-to-top:hover {
+        background: var(--accent-color);
+        transform: translateY(-3px);
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .tech-card {
+          padding: 1.5rem;
+        }
+
+        .hero-section {
+          padding: 2rem 0;
+        }
+      }
+
+      .collapse-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .collapse-content.show {
+        max-height: none;
+      }
+
+      .tech-card.expanded .collapse-content {
+        max-height: none;
+      }
+
+      .badge {
+        font-size: 0.75rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .badge-js {
+        background: rgba(247, 223, 30, 0.2);
+        color: #f7df1e;
+      }
+      .badge-react {
+        background: rgba(97, 218, 251, 0.2);
+        color: #61dafb;
+      }
+      .badge-next {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+      .badge-php {
+        background: rgba(119, 123, 180, 0.2);
+        color: #777bb4;
+      }
+      .badge-python {
+        background: rgba(55, 118, 171, 0.2);
+        color: #3776ab;
+      }
+      .badge-frontend {
+        background: rgba(227, 79, 38, 0.2);
+        color: #e34f26;
+      }
+      .badge-database {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--success-color);
+      }
+      .badge-devops {
+        background: rgba(245, 158, 11, 0.2);
+        color: var(--warning-color);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#home">
+          <i class="bi bi-code-slash"></i> Full Stack Guide
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#home">Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#technologies">Tecnologias</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#roadmap">Roadmap</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#about">Sobre</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">Guia Full Stack Completo</h1>
+        <p class="hero-subtitle">
+          Seu roadmap completo para se tornar um desenvolvedor Full Stack.
+          Exemplos práticos, diagramas interativos e tudo que você precisa para
+          a seletiva de emprego.
+        </p>
+        <div class="mt-4">
+          <a href="#technologies" class="btn btn-primary me-3">
+            <i class="bi bi-rocket"></i> Começar Estudos
+          </a>
+          <a href="#roadmap" class="btn btn-outline-primary">
+            <i class="bi bi-map"></i> Ver Roadmap
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section id="technologies" class="py-5">
+      <div class="container">
+        <div class="row">
+          <!-- Sidebar Navigation -->
+          <div class="col-lg-3 d-none d-lg-block">
+            <div class="sidebar-nav">
+              <h5 class="mb-3 text-white">
+                <i class="bi bi-list-ul"></i> Navegação
+              </h5>
+              <nav>
+                <a href="#javascript" class="nav-link">
+                  <i class="bi bi-file-code"></i> JavaScript/ES6+
+                </a>
+                <a href="#react" class="nav-link">
+                  <i class="bi bi-circle"></i> React
+                </a>
+                <a href="#nextjs" class="nav-link">
+                  <i class="bi bi-arrow-right-circle"></i> Next.js
+                </a>
+                <a href="#php" class="nav-link">
+                  <i class="bi bi-server"></i> PHP/Laravel
+                </a>
+                <a href="#python" class="nav-link">
+                  <i class="bi bi-cpu"></i> Python/Django
+                </a>
+                <a href="#frontend" class="nav-link">
+                  <i class="bi bi-palette"></i> Front-end
+                </a>
+                <a href="#database" class="nav-link">
+                  <i class="bi bi-database"></i> Banco de Dados
+                </a>
+                <a href="#devops" class="nav-link">
+                  <i class="bi bi-gear"></i> DevOps
+                </a>
+              </nav>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="col-lg-9">
+            <!-- JavaScript/ES6+ Section -->
+            <div id="javascript" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon js-icon">📚</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">JavaScript/ES6+</h2>
+                  <span class="badge badge-js">Frontend/Backend</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                A linguagem base para desenvolvimento web moderno. Domine desde
+                conceitos básicos até recursos avançados do ES6+.
+              </p>
+
+              <!-- Mermaid Diagram -->
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD JS[JavaScript/ES6+] --> VAR[Variáveis e Tipos] -->
+                  FUNC[Funções] --> OBJ[Objetos e Arrays] --> ES6[Recursos ES6]
+                  --> PROM[Promises] --> ASYNC[Async/Await] --> MOD[Módulos] -->
+                  DOM[DOM] --> EVENT[Eventos] --> FETCH[Fetch API] -->
+                  TEST_JS[Testes JS]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('js-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos de Código
+              </button>
+
+              <div id="js-examples" class="code-examples collapse-content">
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> Variáveis e Tipos
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-javascript">// Tipos primitivos
+let nome = "João";           // string
+const idade = 25;           // number
+let ativo = true;           // boolean
+let vazio = null;           // null
+let indefinido;             // undefined
+
+// Template literals
+const apresentacao = `Olá, eu sou ${nome} e tenho ${idade} anos`;</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Funções
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-javascript">// Função tradicional
+function somar(a, b) {
+    return a + b;
+}
+
+// Arrow function
+const multiplicar = (a, b) => a * b;
+
+// Função com parâmetros padrão
+const saudar = (nome = "Visitante") => `Olá, ${nome}!`;</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> Objetos e Arrays
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-javascript">// Objeto com métodos
+const pessoa = {
+    nome: "Maria",
+    idade: 30,
+    apresentar() {
+        return `Sou ${this.nome}, ${this.idade} anos`;
+    }
+};
+
+// Array com métodos
+const numeros = [1, 2, 3, 4, 5];
+const pares = numeros.filter(n => n % 2 === 0);
+const dobrados = numeros.map(n => n * 2);</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-4-circle"></i> Promises e Async/Await
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-javascript">// Promise
+const buscarDados = () => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({ id: 1, nome: "Dados" });
+        }, 1000);
+    });
+};
+
+// Async/Await
+const obterDados = async () => {
+    try {
+        const dados = await buscarDados();
+        console.log(dados);
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+};</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- React Section -->
+            <div id="react" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon react-icon">⚛️</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">React</h2>
+                  <span class="badge badge-react">Frontend Library</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                A biblioteca JavaScript mais popular para construir interfaces
+                de usuário. Componentes, hooks, state management e muito mais.
+              </p>
+
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD REACT[React] --> COMP[Componentes] --> JSX[JSX] -->
+                  PROPS[Props e State] --> HOOKS[Hooks] --> CONTEXT[Context API]
+                  --> STATE[Gerenciamento de Estado] --> ROUTER[React Router]
+                  --> API[Integração com APIs] --> STYLE[Estilização] -->
+                  TEST_REACT[Testes React]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('react-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos React
+              </button>
+
+              <div id="react-examples" class="code-examples collapse-content">
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> Componente Funcional
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-jsx">function Contador({ inicial = 0, step = 1 }) {
+    const [count, setCount] = useState(inicial);
+    
+    const incrementar = () => setCount(prev => prev + step);
+    const decrementar = () => setCount(prev => prev - step);
+    const resetar = () => setCount(inicial);
+    
+    return (
+        &lt;div className="contador"&gt;
+            &lt;h2&gt;Contador: {count}&lt;/h2&gt;
+            &lt;button onClick={decrementar}&gt;-{step}&lt;/button&gt;
+            &lt;button onClick={resetar}&gt;Reset&lt;/button&gt;
+            &lt;button onClick={incrementar}&gt;+{step}&lt;/button&gt;
+        &lt;/div&gt;
+    );
+}</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Hooks Essenciais
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-jsx">function BuscadorUsuarios() {
+    const [usuarios, setUsuarios] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [filtro, setFiltro] = useState('');
+    
+    // useEffect para buscar dados
+    useEffect(() => {
+        const buscarUsuarios = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch('/api/usuarios');
+                const data = await response.json();
+                setUsuarios(data);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        buscarUsuarios();
+    }, []);
+    
+    // useMemo para cálculos custosos
+    const usuariosFiltrados = useMemo(() => {
+        return usuarios.filter(user => 
+            user.nome.toLowerCase().includes(filtro.toLowerCase())
+        );
+    }, [usuarios, filtro]);
+    
+    if (loading) return &lt;div&gt;Carregando...&lt;/div&gt;;
+    
+    return (
+        &lt;div&gt;
+            &lt;input 
+                type="text"
+                placeholder="Filtrar usuários..."
+                onChange={(e) => setFiltro(e.target.value)}
+            /&gt;
+            &lt;ul&gt;
+                {usuariosFiltrados.map(user => (
+                    &lt;li key={user.id}&gt;{user.nome}&lt;/li&gt;
+                ))}
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    );
+}</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Placeholder for other sections -->
+            <div id="nextjs" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon next-icon">⚡</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">Next.js</h2>
+                  <span class="badge badge-next">React Framework</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                Framework React para produção com SSR, SSG, API routes e muito
+                mais.
+              </p>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-clock"></i> Em breve...
+              </button>
+            </div>
+
+            <div id="php" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon php-icon">🐘</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">PHP/Laravel</h2>
+                  <span class="badge badge-php">Backend</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                Linguagem server-side e framework Laravel para desenvolvimento
+                web robusto.
+              </p>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-clock"></i> Em breve...
+              </button>
+            </div>
+
+            <div id="python" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon python-icon">🐍</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">Python/Django</h2>
+                  <span class="badge badge-python">Backend</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                Linguagem versátil e framework Django para desenvolvimento web
+                escalável.
+              </p>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-clock"></i> Em breve...
+              </button>
+            </div>
+
+            <div id="frontend" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon frontend-icon">🎨</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">Front-end Avançado</h2>
+                  <span class="badge badge-frontend">UI/UX</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                CSS moderno, responsividade, acessibilidade e ferramentas de
+                build.
+              </p>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-clock"></i> Em breve...
+              </button>
+            </div>
+
+            <div id="database" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon database-icon">🗄️</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">Banco de Dados</h2>
+                  <span class="badge badge-database">SQL/NoSQL</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                SQL, NoSQL, MongoDB, PostgreSQL e design de bancos de dados.
+              </p>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-clock"></i> Em breve...
+              </button>
+            </div>
+
+            <div id="devops" class="tech-card">
+              <div class="d-flex align-items-center mb-3">
+                <span class="tech-icon devops-icon">🚀</span>
+                <div class="ms-3">
+                  <h2 class="tech-title">DevOps & Deploy</h2>
+                  <span class="badge badge-devops">Infrastructure</span>
+                </div>
+              </div>
+              <p class="tech-description">
+                Docker, CI/CD, AWS, Vercel, Heroku e automação de deploy.
+              </p>
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-clock"></i> Em breve...
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h2 class="hero-title" style="font-size: 2.5rem">Roadmap Complete</h2>
+          <p class="hero-subtitle">
+            Trilha completa de estudos para desenvolvedor Full Stack
+          </p>
+        </div>
+
+        <div class="mermaid-container">
+          <div class="mermaid">
+            graph TD FULLSTACK[Full Stack] --> JS[JavaScript/ES6+] -->
+            VAR[Variáveis e Tipos] --> FUNC[Funções] --> OBJ[Objetos e Arrays]
+            --> ES6[Recursos ES6] --> PROM[Promises] --> MOD[Módulos] -->
+            DOM[DOM] --> EVENT[Eventos] --> REACT[React] --> COMP[Componentes]
+            --> JSX[JSX] --> PROPS[Props e State] --> HOOKS[Hooks] -->
+            STATE[Gerenciamento de Estado] --> ROUTER[React Router] -->
+            API[Integração com APIs] --> NEXT[Next.js] --> ESTRUT[Estrutura] -->
+            ROTAS[Rotas] --> SSR[SSR/SSG] --> DATA[Data Fetching] -->
+            API_ROUTES[API Routes] --> AUTH[Autenticação] --> PHP[PHP] -->
+            BASICO[Sintaxe Básica] --> FUNCOES[Funções] --> ARRAYS[Arrays] -->
+            POO[POO] --> NAMESPACE[Namespaces] --> COMPOSER[Composer] -->
+            LARAVEL[Laravel] --> PYTHON[Python] --> SINTAXE[Sintaxe Básica] -->
+            FUNC_PY[Funções Python] --> ESTRUT_PY[Estruturas de Dados] -->
+            DJANGO[Django] --> DEPLOY[Deploy Final]
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <h2 class="tech-title mb-4">Sobre este Guia</h2>
+            <p class="tech-description">
+              Este guia foi criado especificamente para ajudar você a se
+              preparar para seletivas de emprego como desenvolvedor Full Stack.
+              Cada seção contém exemplos práticos, diagramas visuais e código
+              que você pode testar imediatamente.
+            </p>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Exemplos de código reais e testados
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Diagramas interativos com Mermaid
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Conteúdo focado em entrevistas
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check-circle text-success me-2"></i>
+                Atualizado com tecnologias modernas
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <div class="text-center">
+              <i class="bi bi-laptop display-1 text-primary"></i>
+              <h4 class="mt-3 text-white">Pronto para a Seletiva?</h4>
+              <p class="text-muted">
+                Use este guia como sua referência completa
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <h5 class="text-white mb-3">Full Stack Training Guide</h5>
+            <p class="text-muted">
+              Seu guia completo para se tornar um desenvolvedor Full Stack.
+              Criado com ❤️ para ajudar desenvolvedores a alcançarem seus
+              objetivos.
+            </p>
+          </div>
+          <div class="col-lg-3">
+            <h6 class="text-white mb-3">Links Úteis</h6>
+            <ul class="list-unstyled">
+              <li><a href="#javascript" class="footer-links">JavaScript</a></li>
+              <li><a href="#react" class="footer-links">React</a></li>
+              <li><a href="#nextjs" class="footer-links">Next.js</a></li>
+              <li><a href="#roadmap" class="footer-links">Roadmap</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3">
+            <h6 class="text-white mb-3">Recursos</h6>
+            <ul class="list-unstyled">
+              <li><a href="#" class="footer-links">Documentação</a></li>
+              <li><a href="#" class="footer-links">Exercícios</a></li>
+              <li><a href="#" class="footer-links">Projetos</a></li>
+              <li><a href="#" class="footer-links">Suporte</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr class="my-4" style="border-color: var(--border-color)" />
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <p class="text-muted mb-0">
+              © 2025 Full Stack Training Guide. Todos os direitos reservados.
+            </p>
+          </div>
+          <div class="col-lg-6 text-end">
+            <p class="text-muted mb-0">
+              Feito para desenvolvedores por desenvolvedores
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating TOC -->
+    <div class="floating-toc">
+      <h6 class="text-white mb-3">
+        <i class="bi bi-list"></i> Navegação Rápida
+      </h6>
+      <div class="small">
+        <a href="#javascript" class="nav-link py-1">JavaScript/ES6+</a>
+        <a href="#react" class="nav-link py-1">React</a>
+        <a href="#nextjs" class="nav-link py-1">Next.js</a>
+        <a href="#php" class="nav-link py-1">PHP/Laravel</a>
+        <a href="#python" class="nav-link py-1">Python/Django</a>
+      </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop">
+      <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.0.0/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <script>
+      // Initialize Mermaid
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "dark",
+        themeVariables: {
+          darkMode: true,
+          primaryColor: "#2563eb",
+          primaryTextColor: "#e2e8f0",
+          primaryBorderColor: "#334155",
+          lineColor: "#06b6d4",
+          secondaryColor: "#1e293b",
+          tertiaryColor: "#0f172a",
+        },
+      });
+
+      // Progress Bar
+      function updateProgressBar() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        document.getElementById("progressBar").style.width =
+          scrollPercent + "%";
+      }
+
+      // Scroll to Top Button
+      function toggleScrollToTop() {
+        const scrollToTop = document.getElementById("scrollToTop");
+        if (window.pageYOffset > 300) {
+          scrollToTop.classList.add("visible");
+        } else {
+          scrollToTop.classList.remove("visible");
+        }
+      }
+
+      // Update Active Navigation
+      function updateActiveNav() {
+        const sections = document.querySelectorAll(".tech-card[id]");
+        const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 100;
+          if (window.pageYOffset >= sectionTop) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+          }
+        });
+      }
+
+      // Toggle Content
+      function toggleContent(elementId) {
+        const content = document.getElementById(elementId);
+        const isExpanded = content.classList.contains("show");
+
+        if (isExpanded) {
+          content.classList.remove("show");
+          content.style.maxHeight = "0";
+        } else {
+          content.classList.add("show");
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      }
+
+      // Smooth Scroll
+      function smoothScroll(target) {
+        document.querySelector(target).scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      // Event Listeners
+      window.addEventListener("scroll", () => {
+        updateProgressBar();
+        toggleScrollToTop();
+        updateActiveNav();
+      });
+
+      document.getElementById("scrollToTop").addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Smooth scroll for all anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = this.getAttribute("href");
+          if (target !== "#") {
+            smoothScroll(target);
+          }
+        });
+      });
+
+      // Initialize on load
+      document.addEventListener("DOMContentLoaded", () => {
+        updateProgressBar();
+        updateActiveNav();
+      });
+    </script>
+  </body>
+</html>
