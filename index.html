@@ -1783,11 +1783,354 @@ REFRESH MATERIALIZED VIEW mv_estatisticas_mensais;</code></pre>
                 </div>
               </div>
               <p class="tech-description">
-                Docker, CI/CD, AWS, Vercel, Heroku e automação de deploy.
+                Docker, CI/CD, AWS, Kubernetes, automação de deploy, monitoramento e infraestrutura como código.
               </p>
-              <button class="btn btn-outline-primary">
-                <i class="bi bi-clock"></i> Em breve...
+
+              <div class="mermaid-container">
+                <div class="mermaid">
+                  graph TD DEVOPS[DevOps] --> DOCKER[Docker] -->
+                  COMPOSE[Docker Compose] --> K8S[Kubernetes] -->
+                  CI_CD[CI/CD] --> GITHUB_ACTIONS[GitHub Actions] -->
+                  AWS[AWS Services] --> TERRAFORM[Terraform] -->
+                  MONITORING[Monitoramento] --> LOGGING[Logs]
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary"
+                onclick="toggleContent('devops-examples')"
+              >
+                <i class="bi bi-code-square"></i> Ver Exemplos DevOps
               </button>
+
+              <div id="devops-examples" class="code-examples collapse-content">
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-1-circle"></i> Docker e Docker Compose
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-dockerfile"># Dockerfile para aplicação Next.js
+FROM node:18-alpine AS base
+
+# Install dependencies
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production
+
+# Rebuild the source code
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED 1
+RUN npm run build
+
+# Production image
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT 3000
+
+CMD ["node", "server.js"]</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-2-circle"></i> Docker Compose - Stack Completa
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-yaml"># docker-compose.yml
+version: '3.8'
+
+services:
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres:5432/appdb
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=appdb
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  # Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+  # Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-3-circle"></i> GitHub Actions - CI/CD
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-yaml"># .github/workflows/deploy.yml
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm run test:ci
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test
+      
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Log in to Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            docker-compose down
+            docker-compose up -d
+            docker system prune -f</code></pre>
+                  </div>
+                </div>
+
+                <div class="example-card">
+                  <div class="example-header">
+                    <i class="bi bi-4-circle"></i> Kubernetes Deployment
+                  </div>
+                  <div class="example-content">
+                    <pre><code class="language-yaml"># k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fullstack-app
+  labels:
+    app: fullstack-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fullstack-app
+  template:
+    metadata:
+      labels:
+        app: fullstack-app
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/usuario/fullstack-app:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: API_URL
+          value: "http://backend-service:8000"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fullstack-service
+spec:
+  selector:
+    app: fullstack-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fullstack-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - meuapp.com
+    secretName: fullstack-tls
+  rules:
+  - host: meuapp.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fullstack-service
+            port:
+              number: 80</code></pre>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
