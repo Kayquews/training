@@ -7,7 +7,12 @@
     "start": "python3 -m http.server 8000",
     "dev": "python3 -m http.server 3000"
   },
-  "keywords": ["fullstack", "javascript", "react", "tutorial"],
+  "keywords": [
+    "fullstack",
+    "javascript",
+    "react",
+    "tutorial"
+  ],
   "author": "Desenvolvedor Full Stack",
   "license": "MIT"
 }
